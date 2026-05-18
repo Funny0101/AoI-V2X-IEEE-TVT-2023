@@ -1,0 +1,16 @@
+# Neural network checkpoints
+*/Classes/tmp/
+
+# Training outputs (large .mat files)
+*/model/marl_model/*.mat
+
+# Logs
+*.log
+train.log
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Conda / env
+.env
