@@ -10,8 +10,8 @@ The simulation environment is based on the urban case defined in Annex A of 3GPP
 
 ## Prerequisites
 
-- Python 3.7 or higher
-- PyTorch 1.7 or higher + CUDA
+- Python 3.8 (conda env: `aoi-v2x`)
+- PyTorch 2.4.1 + CUDA 12.1
 - scipy, numpy, matplotlib
 
 ---
@@ -20,23 +20,15 @@ The simulation environment is based on the urban case defined in Annex A of 3GPP
 
 | Directory | Description |
 |-----------|-------------|
-| `1-Modified MADDPG with TDec` | **Proposed method** (paper's best performer) |
+| `1-Modified MADDPG with TDec` | **Proposed method** (paper's best performer, baseline) |
 | `2-Modified MADDPG` | Modified MADDPG without task decoupling |
 | `3-MADDPG_FDec` | Fully decentralized MADDPG |
 | `4-DDPG` | Centralized DDPG baseline |
-| `5-Modified MADDPG with Attention` | Attention-based global critic (Scheme 1) |
-| `6-Modified MADDPG with AoI-Enhanced` | AoI-aware reward redesign (Scheme 2, **improved over baseline**) |
-| `7-Modified MADDPG with Attention+AoI` | Combined Attention + AoI-Enhanced |
+| `6-Modified MADDPG with AoI-Enhanced` | **Our improvement**: AoI-aware reward redesign (**outperforms baseline**) |
 
 ---
 
 ## How to Run
-
-Please make sure that you have created the following directories:
-1. `.../Classes/tmp/ddpg`
-2. `.../model/marl_model`
-
-The final results and the network weights will be saved in these directories.
 
 ### Single algorithm
 ```bash
@@ -44,36 +36,33 @@ conda activate aoi-v2x
 python "1-Modified MADDPG with TDec/Main.py"
 ```
 
-### Parallel execution
+### Parallel execution (4 algorithms)
 ```bash
-# Assign GPUs in run_all.sh / run_new.sh, then:
-bash run_all.sh   # algorithms 1-4
-bash run_new.sh   # algorithms 5-7
+# Edit GPU assignment in run_all.sh first, then:
+bash run_all.sh
 ```
 
 ### Plot results
 ```bash
 python plot_results.py        # Fig 1-8 for algorithms 1-4
-python plot_comparison.py     # Comparison with new algorithms
+python plot_comparison.py     # Comparison: baseline vs AoI-Enhanced
 ```
 
 ---
 
-## How to Plot (from README of original repo)
+## How to Plot (original instructions)
 
-1. Change the number of vehicles, platoon sizes, and intra-platoon distance
+1. Simulation results are saved into `.../model/marl_model` as `.mat` files.
 
-2. Simulation results are saved into `.../model/marl_model`. You can import these data (Matlab, Python, etc.) and plot the results.
+2. Except for Fig. 1 (from `reward_t1.mat` and `reward_t2.mat` directly), results should be **averaged with respect to the agents** before plotting.
 
-3. Except for Fig. 1, which can be directly obtained through `reward_t1.mat` and `reward_t2.mat`, in order to plot the other figures, the results should be averaged with respect to the agents.
-
-4. Figs. 2 and 3 are plotted as follows:
+3. Figs. 2 and 3 are plotted as follows:
    - Run `Modified MADDPG with TDec/Main`, average `(reward_t1.mat + reward_t2.mat)` for all agents
    - Run `Modified MADDPG/Main`, average `reward.mat` for all agents
    - Run `MADDPG_FDec/Main`, average `reward.mat` for all agents
    - Run `DDPG/Main`, average `reward.mat` for all agents
 
-5. The remaining figures can be reproduced by the same procedure.
+4. The remaining figures can be reproduced by the same procedure.
 
 ---
 
@@ -114,7 +103,6 @@ The AoI-Enhanced variant achieves **lower AoI** and **significantly higher rewar
 |-----------|:---:|:------:|:---:|:---:|
 | **6-AoI-Enhanced** | **4.81** | **-0.27** | **385.3** | 1096.9 |
 | 1-TDec (Baseline) | 5.02 | -0.82 | 341.1 | **1270.0** |
-| 5-Attention | 5.64 | -0.90 | 310.8 | 1137.3 |
 | 2-Modified MADDPG | 6.84 | -1.21 | 381.1 | 563.5 |
 | 3-MADDPG-FDec | 8.82 | -1.48 | 266.3 | 760.3 |
 | 4-DDPG | 58.01 | -5.03 | 171.3 | 1204.6 |
