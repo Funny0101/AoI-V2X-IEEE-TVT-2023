@@ -1,4 +1,4 @@
-"""Fig 8: Single platoon 100-step behavior for TDec / AoI-Enhanced / ParamShare."""
+"""Fig 8: Single platoon 100-step behavior — our 3 improvements vs baseline."""
 
 import numpy as np
 import scipy.io
@@ -11,11 +11,11 @@ matplotlib.rcParams['font.size'] = 11
 algos = [
     ('1-Modified MADDPG with TDec/model/marl_model/', 'TDec', '#1f77b4'),
     ('6-Modified MADDPG with AoI-Enhanced/model/marl_model/', 'AoI-Enhanced', '#9467bd'),
-    ('11-Modified MADDPG with ParamShare/model/marl_model/', 'ParamShare', '#8c564b'),
+    ('12-Modified MADDPG with AoI-ParamShare/model/marl_model/', 'AoI-ParamShare', '#e6550d'),
 ]
 
 platoon_idx = 0
-ep_idx = -1  # last available episode
+ep_idx = -1
 
 fig, axes = plt.subplots(1, 3, figsize=(18, 5))
 
@@ -26,7 +26,6 @@ for ax_idx, (folder, label, color) in enumerate(algos):
 
     p = power[platoon_idx, ep_idx, :]
     d = demand[platoon_idx, ep_idx, :]
-    aoi = aoi_evo[platoon_idx, ep_idx, :]
     steps = np.arange(len(p))
 
     ax1 = axes[ax_idx]
@@ -43,7 +42,6 @@ for ax_idx, (folder, label, color) in enumerate(algos):
     ax2.set_ylabel('V2V Demand Remaining (bits)', color='#d62728')
     ax2.tick_params(axis='y', labelcolor='#d62728')
 
-    # Add legend
     from matplotlib.patches import Patch
     from matplotlib.lines import Line2D
     legend_elements = [Patch(facecolor=color, alpha=0.5, label='Power'),

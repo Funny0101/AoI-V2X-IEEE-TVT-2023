@@ -1,4 +1,4 @@
-"""Fig 4: Average total reward comparison across algorithms."""
+"""Fig 4: Average total reward comparison across all algorithms."""
 
 import numpy as np
 import scipy.io
@@ -18,7 +18,6 @@ def smooth(data, w):
     return out
 
 def load_total_reward(folder, reward_type):
-    """Return (n_agents, 500) total reward array."""
     if reward_type == 'split':
         t1 = scipy.io.loadmat(folder + 'reward_t1.mat')['reward_t1']
         t2 = scipy.io.loadmat(folder + 'reward_t2.mat')['reward_t2']
@@ -35,13 +34,13 @@ algos = [
     ('4-DDPG/model/marl_model/',                                   'single',  'DDPG',            '#d62728', '-'),
     ('6-Modified MADDPG with AoI-Enhanced/model/marl_model/',      'split',   'AoI-Enhanced',    '#9467bd', '--'),
     ('11-Modified MADDPG with ParamShare/model/marl_model/',       'split',   'ParamShare',      '#8c564b', '--'),
+    ('12-Modified MADDPG with AoI-ParamShare/model/marl_model/',   'split',   'AoI-ParamShare',  '#e6550d', '--'),
 ]
 
 fig, ax = plt.subplots(figsize=(10, 6))
 
 for folder, rtype, label, color, ls in algos:
     total = load_total_reward(folder, rtype)
-    # Mean across agents, then smooth
     mean_r = np.mean(total, axis=0)
     smoothed = smooth(mean_r, window)
     ax.plot(smoothed, label=label, color=color, linestyle=ls, linewidth=1.5)
@@ -49,7 +48,7 @@ for folder, rtype, label, color, ls in algos:
 ax.set_xlabel('Episode', fontsize=13)
 ax.set_ylabel('Average Total Reward', fontsize=13)
 ax.set_title('Average Total Reward Convergence', fontsize=14, fontweight='bold')
-ax.legend(fontsize=11, loc='lower right')
+ax.legend(fontsize=10, loc='lower right')
 ax.grid(True, alpha=0.3)
 ax.set_xlim(0, 499)
 

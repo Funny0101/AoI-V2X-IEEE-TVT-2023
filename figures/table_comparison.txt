@@ -1,51 +1,55 @@
-========================================================================================================================
-Algorithm               AoI     Reward   V2I Rate   V2V Rate  Conv.Ep  Ep100 AoI    Time(s)  Time(min)
-========================================================================================================================
-TDec MADDPG            5.07      -0.83      346.5     1271.8      120       6.13       5321       88.7
-MADDPG                 7.10      -1.34      389.2      549.5      355      42.67       4392       73.2
-FDec MADDPG            8.86      -1.35      263.3      803.9      386      61.69       4786       79.8
-DDPG                  42.84      -4.07      289.8     1013.6      196      75.70        866       14.4
-AoI-Enhanced           4.86      -0.25      356.8     1145.3      340      10.46       4607       76.8
-ParamShare             4.89      -0.87      372.5     1176.5       81       5.36       3671       61.2
-========================================================================================================================
+==================================================================================================================================
+Algorithm               AoI     Reward   V2I Rate   V2V Rate    CAM  Conv.Ep  Time(min)
+==================================================================================================================================
+TDec MADDPG            5.07      -0.83      346.5     1271.8    98%      120       88.7
+MADDPG                 7.10      -1.34      389.2      549.5     4%      355       73.2
+FDec MADDPG            8.86      -1.35      263.3      803.9    32%      386       79.8
+DDPG                  42.84      -4.07      289.8     1013.6     2%      196       14.4
+AoI-Enhanced           4.86      -0.25      356.8     1145.3    96%      340       76.8
+ParamShare             4.89      -0.87      372.5     1176.5    98%       81       61.2
+AoI-ParamShare         4.51      -0.30      374.0      763.2   100%      115       68.6
+==================================================================================================================================
 
-Algorithm            AoI d%  Reward d%   V2I d%   V2V d%  Conv. Speedup   Time Saved
---------------------------------------------------------------------------------
-TDec MADDPG           +0.0%      +0.0%    +0.0%    +0.0%          1.00x        +0.0%
-MADDPG               +39.9%     -61.3%   +12.3%   -56.8%          0.34x       +17.5%
-FDec MADDPG          +74.7%     -62.4%   -24.0%   -36.8%          0.31x       +10.1%
-DDPG                +744.4%    -391.2%   -16.4%   -20.3%          0.61x       +83.7%
-AoI-Enhanced          -4.2%     +69.3%    +3.0%    -9.9%          0.35x       +13.4%
-ParamShare            -3.6%      -5.1%    +7.5%    -7.5%          1.48x       +31.0%
+Algorithm            AoI d%  Reward d%   V2I d%   V2V d%    CAM  Conv. Speedup   Time Saved
+------------------------------------------------------------------------------------------
+TDec MADDPG           +0.0%      +0.0%    +0.0%    +0.0%    98%          1.00x        +0.0%
+MADDPG               +39.9%     -61.3%   +12.3%   -56.8%     4%          0.34x       +17.5%
+FDec MADDPG          +74.7%     -62.4%   -24.0%   -36.8%    32%          0.31x       +10.1%
+DDPG                +744.4%    -391.2%   -16.4%   -20.3%     2%          0.61x       +83.7%
+AoI-Enhanced          -4.2%     +69.3%    +3.0%    -9.9%    96%          0.35x       +13.4%
+ParamShare            -3.6%      -5.1%    +7.5%    -7.5%    98%          1.48x       +31.0%
+AoI-ParamShare       -11.1%     +63.6%    +7.9%   -40.0%   100%          1.04x       +22.6%
+
+=== V2V Rate Breakdown (last 50 episodes) ===
+Algorithm            V2V (demand>0)   V2V (demand=0)  CAM 5/5  1st delivery
+---------------------------------------------------------------------------
+TDec MADDPG                    2013             1137      98%       15.1/100
+MADDPG                          737              427       4%       23.3/100
+FDec MADDPG                     934              740      32%       20.4/100
+DDPG                            479             1641       2%       21.7/100
+AoI-Enhanced                   2123              978      96%       13.9/100
+ParamShare                     1867             1039      98%       16.3/100
+AoI-ParamShare                 1716              554     100%       18.0/100
+
+Note: V2V(demand=0) is throughput AFTER CAM delivery. Lower values mean agent
+switched to V2I mode to minimize AoI — this is efficient, not a failure.
 
 % --- LaTeX Table ---
 \begin{table}[h]
 \centering
 \caption{Quantitative Comparison of Algorithms (Last 50 Episodes Average)}
 \label{tab:comparison}
-\begin{tabular}{lccccccc}
+\begin{tabular}{lcccccccc}
 \toprule
-Algorithm & AoI $\downarrow$ & Reward $\uparrow$ & V2I Rate $\uparrow$ & V2V Rate $\uparrow$ & Conv. Ep.\ $\downarrow$ & Training Time (min) $\downarrow$ \\
+Algorithm & AoI $\downarrow$ & Reward $\uparrow$ & V2I Rate $\uparrow$ & V2V Rate & CAM Delivery $\uparrow$ & Conv. Ep.\ $\downarrow$ & Time (min) $\downarrow$ \\
 \midrule
-  TDec MADDPG & 5.07 & -0.83 & 346.5 & 1271.8 & 120 & 88.7 \\
-  MADDPG & 7.10 & -1.34 & 389.2 & 549.5 & 355 & 73.2 \\
-  FDec MADDPG & 8.86 & -1.35 & 263.3 & 803.9 & 386 & 79.8 \\
-  DDPG & 42.84 & -4.07 & 289.8 & 1013.6 & 196 & 14.4 \\
-  AoI-Enhanced & 4.86 & -0.25 & 356.8 & 1145.3 & 340 & 76.8 \\
-  ParamShare & 4.89 & -0.87 & 372.5 & 1176.5 & 81 & 61.2 \\
+  TDec MADDPG & 5.07 & -0.83 & 346.5 & 1271.8 & 98\% & 120 & 88.7 \\
+  MADDPG & 7.10 & -1.34 & 389.2 & 549.5 & 4\% & 355 & 73.2 \\
+  FDec MADDPG & 8.86 & -1.35 & 263.3 & 803.9 & 32\% & 386 & 79.8 \\
+  DDPG & 42.84 & -4.07 & 289.8 & 1013.6 & 2\% & 196 & 14.4 \\
+  AoI-Enhanced & 4.86 & -0.25 & 356.8 & 1145.3 & 96\% & 340 & 76.8 \\
+  ParamShare & 4.89 & -0.87 & 372.5 & 1176.5 & 98\% & 81 & 61.2 \\
+  AoI-ParamShare & 4.51 & -0.30 & 374.0 & 763.2 & 100\% & 115 & 68.6 \\
 \bottomrule
 \end{tabular}
 \end{table}
-
-全部修好了。总结改动：
-
-Fig 5 修复：左侧主图只放5个多智能体算法（y轴0-20），DDPG单独放右侧子图。现在所有曲线都能清晰看到。
-
-训练时间已加入表格（从 train.log 提取）：
-
-Algorithm	AoI	Reward	Time	Conv.Ep
-TDec MADDPG	5.07	-0.83	88.7 min	120
-AoI-Enhanced	4.86	-0.25	76.8 min (-13%)	340
-ParamShare	4.89	-0.87	61.2 min (-31%)	81
-ParamShare 的卖点：训练时间比TDec节省31%（3671s vs 5321s），收敛速度1.48倍，且最终性能接近。
-说明它没有拉扯，所以收敛快，没有多的训练时间。

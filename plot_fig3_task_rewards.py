@@ -1,4 +1,4 @@
-"""Fig 3: Task 1 and Task 2 reward convergence per agent (TDec + AoI-Enhanced + ParamShare)."""
+"""Fig 3: Task 1 and Task 2 reward convergence per agent — all our improvements."""
 
 import numpy as np
 import scipy.io
@@ -17,9 +17,10 @@ def smooth(data, w):
     return out
 
 algos = [
-    ('1-Modified MADDPG with TDec/model/marl_model/', 'TDec',         '#1f77b4', '-'),
+    ('1-Modified MADDPG with TDec/model/marl_model/', 'TDec', '#1f77b4', '-'),
     ('6-Modified MADDPG with AoI-Enhanced/model/marl_model/', 'AoI-Enhanced', '#9467bd', '--'),
-    ('11-Modified MADDPG with ParamShare/model/marl_model/', 'ParamShare',  '#8c564b', '-.'),
+    ('11-Modified MADDPG with ParamShare/model/marl_model/', 'ParamShare', '#8c564b', '-.'),
+    ('12-Modified MADDPG with AoI-ParamShare/model/marl_model/', 'AoI-ParamShare', '#e6550d', ':'),
 ]
 
 data = {}

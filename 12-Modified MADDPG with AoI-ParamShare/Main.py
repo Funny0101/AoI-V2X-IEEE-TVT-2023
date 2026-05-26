@@ -226,7 +226,12 @@ if IS_TRAIN:
             if memory.mem_cntr >= batch_size:
                 states, actions, rewards_g, rewards_t1, rewards_t2, states_, dones = memory.sample_buffer(batch_size)
 
-                global_agent.global_learn(agents, states, actions, rewards_g, rewards_t1, rewards_t2, states_, dones)
+                # Normalize task 2 rewards across the batch to stabilize quadratic AoI gradients
+                rewards_t2_mean = np.mean(rewards_t2)
+                rewards_t2_std = np.std(rewards_t2) + 1e-8
+                rewards_t2_norm = (rewards_t2 - rewards_t2_mean) / rewards_t2_std
+
+                global_agent.global_learn(agents, states, actions, rewards_g, rewards_t1, rewards_t2_norm, states_, dones)
 
             # old observation = new_observation
             for i in range(n_platoon):
