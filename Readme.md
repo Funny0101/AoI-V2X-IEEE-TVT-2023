@@ -13,7 +13,7 @@ Reproduction and improvement of *"AoI-Aware Resource Allocation for Platoon-Base
 
 随着智能交通系统（ITS）和自动驾驶技术的发展，车队（Platoon）协同成为提升道路安全与效率的关键。每个车队需要通过**V2V**（车与车）通信及时下发安全消息（CAM），同时通过**V2I**（车与路侧单元）通信向基站汇报状态。**信息新鲜度（AoI, Age of Information）**成为衡量系统时效性的核心指标。
 
-论文《AoI-Aware Resource Allocation for Platoon-Based C-V2X Networks via Multi-Agent Multi-Task Reinforcement Learning》（IEEE TVT 2023）提出了基于**多智能体强化学习（MARL）\**的分布式资源分配框架，目标是\**最小化 AoI 并最大化 CAM 交付率**，兼顾 V2I/V2V 速率约束。
+论文《AoI-Aware Resource Allocation for Platoon-Based C-V2X Networks via Multi-Agent Multi-Task Reinforcement Learning》（IEEE TVT 2023）提出了基于**多智能体强化学习（MARL）的分布式资源分配框架，目标是最小化 AoI 并最大化 CAM 交付率**，兼顾 V2I/V2V 速率约束。
 
 ## 2. 论文方案（算法1：TDec MADDPG）
 
@@ -24,7 +24,7 @@ Reproduction and improvement of *"AoI-Aware Resource Allocation for Platoon-Base
   - Task2（V2I+AoI）：V2I 达标奖励，AoI 线性惩罚（`-AoI/20`）。
 - **核心指标**：AoI、CAM 交付率、V2I/V2V 速率。
 
-## 3. 改进与创新
+## 3. 你的改进与创新
 
 ### 3.1 AoI 奖励增强（算法6：AoI-Enhanced）
 
